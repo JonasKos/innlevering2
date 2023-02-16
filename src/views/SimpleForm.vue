@@ -16,8 +16,9 @@
 
 <script>
 import BaseInput from "../components/BaseInput.vue";
-
+import axios from 'axios';
 export default {
+    
   name: "SimpleForm",
   components: {
     BaseInput,
