@@ -1,6 +1,7 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link>
+    <router-link to="/KontaktSkjema">Kontaktskjema</router-link>
   </nav>
   <router-view />
 </template>
@@ -19,6 +20,7 @@ nav {
 }
 
 nav a {
+  padding: 4px;
   font-weight: bold;
   color: #2c3e50;
 }
