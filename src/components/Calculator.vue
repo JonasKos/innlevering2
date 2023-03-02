@@ -26,6 +26,8 @@
 </template>
 
 <script>
+
+
 export default {
   name: "HelloWorld",
   props: {
@@ -34,6 +36,12 @@ export default {
   data() {
     return {
       title: "Calculator",
+      calculations: {
+        firstNumber: "",
+        secondNumber: "",
+        operator: "",
+        result: ""
+      },
       calculation: "",
       calculationLog: "",
       answer: "0",
@@ -66,22 +74,54 @@ export default {
     updateCalculation(sign) {
       if (sign === "=") {
         this.calculationLog = this.calculation;
-        this.calculation = eval(this.calculation);
-        this.logs.push(this.calculationLog + " = " + this.calculation);
-        this.answer = this.calculation;
-        this.answerTest = this.calculation;
+        console.log(this.calculation);
+        const breakpoint = /(\+|-|\*|\/)/;
+        var calculationArray = this.calculation.split(breakpoint);
+        this.calculations.firstNumber = calculationArray[0];
+        this.calculations.secondNumber = calculationArray[2];
+        this.calculations.operator = calculationArray[1];
+        console.log(this.calculations);
+        this.postCalculation();
+        console.log(this.calculations.result);
+        
+        
+      
       } else if (sign === "C") {
         this.calculation = "";
       } else if (sign === "DEL") {
         this.calculation = this.calculation.slice(0, -1);
       } else if (sign === "ANS") {
-        this.calculation += this.answer;
+        this.calculation += this.calculations.result;
       } else if (this.calculation == this.answerTest) {
         this.calculation = "";
         this.calculation += sign;
         this.answerTest = "0";
       } else this.calculation += sign;
     },
+    async postCalculation() {
+      console.log(JSON.stringify(this.calculations))
+      fetch("http://localhost:8081/calculation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(this.calculations)
+        })
+        .then(response => response.json())
+        .then(json => {
+          console.log(JSON.stringify(json))
+          this.calculations.result = json.result;
+          this.calculationUpdate();
+        })
+        .catch(error => console.error(error));
+      },
+      
+      calculationUpdate() {
+        this.calculation = this.calculations.result;
+        this.logs.push(this.calculations.firstNumber + this.calculations.operator + this.calculations.secondNumber + " = " + this.calculations.result);
+        this.answerTest = this.calculation;
+      },
+      
   },
 };
 </script>
