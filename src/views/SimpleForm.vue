@@ -3,88 +3,201 @@
     <h1>Leave feedback</h1>
     <form @submit.prevent="sendForm">
       <h3>Leave feedback for the calculator</h3>
-      <div><BaseInput v-model="feedback.name" label="Name" type="text" :error="nameError"/></div>
-      <div>
-        <BaseInput v-model="feedback.email" label="Email" type="email" :error="emailError" />
-      </div>
-      <div>
-        <BaseInput v-model="feedback.message" label="Message" type="text" />
+      <div></div>
+
+      <!-- Name -->
+      <div
+        class="form-group"
+        :class="{ error: v$.feedback.name.$errors.length }"
+      >
+        <label for="">Name</label>
+        <input
+          class="form-control"
+          placeholder="Enter your name"
+          type="text"
+          v-model="v$.feedback.name.$model"
+        />
+
+        <!-- name error message -->
+        <div
+          class="input-errors"
+          v-for="(error, index) of v$.feedback.name.$errors"
+          :key="index"
+        >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
       </div>
 
-      <button type="submit">Submit</button>
+      <!-- Email -->
+      <div
+        class="form-group"
+        :class="{ error: v$.feedback.email.$errors.length }"
+      >
+        <label for="">Email</label>
+        <input
+          class="form-control"
+          placeholder="Enter your email"
+          type="email"
+          v-model="v$.feedback.email.$model"
+        />
+
+        <!-- email error message -->
+        <div
+          class="input-errors"
+          v-for="(error, index) of v$.feedback.email.$errors"
+          :key="index"
+        >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
+
+        <!-- feedback -->
+        <div
+          class="form-group"
+          :class="{ error: v$.feedback.message.$errors.length }"
+        >
+          <label for="">Message</label>
+          <input
+            class="form-control"
+            placeholder="Enter your feedback"
+            type="text"
+            v-model="v$.feedback.message.$model"
+          />
+          <!-- feedback error message -->
+          <div
+            class="input-errors"
+            v-for="(error, index) of v$.feedback.message.$errors"
+            :key="index"
+          >
+            <div class="error-msg">{{ error.$message }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" :disabled="v$.feedback.$invalid" class="submit-button">Submit</button>
+      </div>
     </form>
   </div>
 </template>
 
 <script>
-import BaseInput from "../components/BaseInput.vue";
 import axios from "axios";
-import { useField, useForm } from "vee-validate";
+import useVuelidate from "@vuelidate/core";
+import { required, email, minLength } from "@vuelidate/validators";
+import store from "../store";
+
+export function validName(name) {
+  let validNamePattern = new RegExp("^[a-zA-Z]+(?:[-'\\s][a-zA-Z]+)*$");
+  if (validNamePattern.test(name)){
+    return true;
+  }
+  return false;
+}
+
 export default {
   name: "SimpleForm",
-  components: {
-    BaseInput,
-  },
 
   setup() {
-    const validations = {
-      email: (value) => {
-        if (!value) return "This field is required";
-        const regex =
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (!regex.test(String(value).toLowerCase())) {
-          return "Please enter a valid email address";
-        }
-        return true;
-      },
-      name: (value) => {
-        const requiredMessage = "This field is required";
-        if (value === undefined || value === null) return requiredMessage;
-        if (!String(value).length) return requiredMessage;
-        return true;
-      },
-    };
-    useForm({
-      validationSchema: validations,
-    });
-
-    const { value: email, errorMessage: emailError } = useField("email");
-    const { value: name, errorMessage: nameError } = useField("name");
-
-    return {
-      feedback1: {
-        name,
-        email,
-        emailError,
-        nameError,
-      },
-    };
+    return { v$: useVuelidate() };
   },
+  // setup() {
+  //   const validations = {
+  //     email: (value) => {
+  //       if (!value) return "This field is required";
+  //       const regex =
+  //         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  //       if (!regex.test(String(value).toLowerCase())) {
+  //         return "Please enter a valid email address";
+  //       }
+  //       return true;
+  //     },
+  //     name: (value) => {
+  //       const requiredMessage = "This field is required";
+  //       if (value === undefined || value === null) return requiredMessage;
+  //       if (!String(value).length) return requiredMessage;
+  //       return true;
+  //     },
+  //   };
+  //   useForm({
+  //     validationSchema: validations,
+  //   });
+
+  //   const { value: email, errorMessage: emailError } = useField("email");
+  //   const { value: name, errorMessage: nameError } = useField("name");
+
+  //   return {
+  //     feedback: {
+  //       name,
+  //       email,
+  //       emailError,
+  //       nameError,
+  //     },
+  //   };
+  // },
   data() {
     return {
       feedback: {
-        name: "",
-        email: "",
+        name: store.state.name,
+        email: store.state.email,
         message: "",
       },
     };
   },
+
+  validations() {
+    return {
+      feedback: {
+        name: {
+          required,
+          minLength: minLength(3),
+          name_validation: {
+            $validator: validName,
+            $message: "Please enter a valid name. No special characters, numbers or spaces at the start or the end of the name are allowed.",
+          }
+        },
+        email: {
+          required,
+          email,
+        },
+        message: {
+          required,
+          minLength: minLength(30),
+        },
+      },
+    };
+  },
+
   methods: {
     sendForm() {
+
+      store.commit("setName", this.feedback.name);
+      store.commit("setEmail", this.feedback.email);
+
+      console.log(store.state.name +  ", store.name")
+      console.log(store.state.email + ", store.email")
+
       axios
         .post(
-          "https://my-json-server.typicode.com/JonasKos/innlevering2/feedback",
+          "http://localhost:3000/feedback",
+          console.log(this.feedback),
           this.feedback
         )
         .then(function (response) {
-          alert("Success: " + response);
+          alert("Form successfully submitted, Status code: " + response.status);
+          console.log("response");
           console.log(response);
         })
         .catch(function (err) {
-          alert("Error: " + err);
-          console.log("error", err);
+          alert(err);
+          console.log(err);
         });
     },
   },
 };
 </script>
+
+<style>
+.input-errors {
+  color: red;
+}
+</style>
