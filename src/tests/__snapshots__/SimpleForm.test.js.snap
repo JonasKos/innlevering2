@@ -1,0 +1,41 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SimpleForm > Email invalid 1`] = `
+"<div>
+  <h1>Leave feedback</h1>
+  <form>
+    <h3>Leave feedback for the calculator</h3>
+    <div class=\\"former\\">
+      <!-- Name -->
+      <div class=\\"form-group\\"><label for=\\"\\">Name</label><input class=\\"form-control\\" placeholder=\\"Enter your name\\" type=\\"text\\"><!-- name error message -->
+        <div class=\\"input-container\\"></div>
+      </div><!-- Email -->
+      <div class=\\"form-group\\"><label for=\\"\\">Email</label><input class=\\"form-control\\" placeholder=\\"Enter your email\\" type=\\"email\\"><!-- email error message -->
+      </div><!-- feedback -->
+      <div class=\\"form-group\\"><label for=\\"\\">Message</label><input class=\\"form-control\\" placeholder=\\"Enter your feedback\\" type=\\"text\\"><!-- feedback error message -->
+      </div>
+    </div>
+    <div><button type=\\"submit\\" disabled=\\"\\" class=\\"submit-button\\"> Submit </button></div>
+  </form>
+</div>"
+`;
+
+exports[`SimpleForm > renders a message 1`] = `
+"<div>
+  <h1>Leave feedback</h1>
+  <form>
+    <h3>Leave feedback for the calculator</h3>
+    <div class=\\"former\\">
+      <!-- Name -->
+      <div class=\\"form-group\\"><label for=\\"\\">Name</label><input class=\\"form-control\\" placeholder=\\"Enter your name\\" type=\\"text\\"><!-- name error message -->
+        <div class=\\"input-container\\"></div>
+      </div><!-- Email -->
+      <div class=\\"form-group\\"><label for=\\"\\">Email</label><input class=\\"form-control\\" placeholder=\\"Enter your email\\" type=\\"email\\"><!-- email error message -->
+      </div><!-- feedback -->
+      <div class=\\"form-group\\"><label for=\\"\\">Message</label><input class=\\"form-control\\" placeholder=\\"Enter your feedback\\" type=\\"text\\"><!-- feedback error message -->
+      </div>
+    </div>
+    <div><button type=\\"submit\\" disabled=\\"\\" class=\\"submit-button\\"> Submit </button></div>
+  </form>
+</div>"
+`;

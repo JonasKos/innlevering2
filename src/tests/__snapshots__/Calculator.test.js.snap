@@ -1,0 +1,17 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Calculator.vue > renders a message 1`] = `
+"<div data-v-c735fc0c=\\"\\" class=\\"calc-display\\">
+  <div data-v-c735fc0c=\\"\\" class=\\"calc\\">
+    <h1 data-v-c735fc0c=\\"\\">Calculator</h1>
+    <p data-v-c735fc0c=\\"\\" class=\\"display\\"></p>
+    <div data-v-c735fc0c=\\"\\" class=\\"calcbuttons\\"><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">C</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">ANS</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">DEL</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">+</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">1</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">2</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">3</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">-</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">4</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">5</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">6</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">*</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">7</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">8</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">9</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">/</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\"> </button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">0</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\">.</button><button data-v-c735fc0c=\\"\\" class=\\"calcbtn\\" style=\\"background-color: orange;\\">=</button></div>
+  </div>
+  <div data-v-c735fc0c=\\"\\" class=\\"log\\">
+    <h1 data-v-c735fc0c=\\"\\">Log</h1>
+    <ul data-v-c735fc0c=\\"\\">
+      <li data-v-c735fc0c=\\"\\"></li>
+    </ul>
+  </div>
+</div>"
+`;

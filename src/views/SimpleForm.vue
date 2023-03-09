@@ -3,53 +3,54 @@
     <h1>Leave feedback</h1>
     <form @submit.prevent="sendForm">
       <h3>Leave feedback for the calculator</h3>
-      <div></div>
-
-      <!-- Name -->
-      <div
-        class="form-group"
-        :class="{ error: v$.feedback.name.$errors.length }"
-      >
-        <label for="">Name</label>
-        <input
-          class="form-control"
-          placeholder="Enter your name"
-          type="text"
-          v-model="v$.feedback.name.$model"
-        />
-
-        <!-- name error message -->
+      <div class="former">
+        <!-- Name -->
         <div
-          class="input-errors"
-          v-for="(error, index) of v$.feedback.name.$errors"
-          :key="index"
+          class="form-group"
+          :class="{ error: v$.feedback.name.$errors.length }"
         >
-          <div class="error-msg">{{ error.$message }}</div>
-        </div>
-      </div>
+          <label for="">Name</label>
+          <input
+            class="form-control"
+            placeholder="Enter your name"
+            type="text"
+            v-model="v$.feedback.name.$model"
+          />
 
-      <!-- Email -->
-      <div
-        class="form-group"
-        :class="{ error: v$.feedback.email.$errors.length }"
-      >
-        <label for="">Email</label>
-        <input
-          class="form-control"
-          placeholder="Enter your email"
-          type="email"
-          v-model="v$.feedback.email.$model"
-        />
-
-        <!-- email error message -->
-        <div
-          class="input-errors"
-          v-for="(error, index) of v$.feedback.email.$errors"
-          :key="index"
-        >
-          <div class="error-msg">{{ error.$message }}</div>
+          <!-- name error message -->
+          <div class="input-container">
+            <div
+              class="input-errors"
+              v-for="(error, index) of v$.feedback.name.$errors"
+              :key="index"
+            >
+              <div class="error-msg">{{ error.$message }}</div>
+            </div>
+          </div>
         </div>
 
+        <!-- Email -->
+        <div
+          class="form-group"
+          :class="{ error: v$.feedback.email.$errors.length }"
+        >
+          <label for="">Email</label>
+          <input
+            class="form-control"
+            placeholder="Enter your email"
+            type="email"
+            v-model="v$.feedback.email.$model"
+          />
+
+          <!-- email error message -->
+          <div
+            class="input-errors"
+            v-for="(error, index) of v$.feedback.email.$errors"
+            :key="index"
+          >
+            <div class="error-msg">{{ error.$message }}</div>
+          </div>
+        </div>
         <!-- feedback -->
         <div
           class="form-group"
@@ -74,7 +75,13 @@
       </div>
 
       <div>
-        <button type="submit" :disabled="v$.feedback.$invalid" class="submit-button">Submit</button>
+        <button
+          type="submit"
+          :disabled="v$.feedback.$invalid"
+          class="submit-button"
+        >
+          Submit
+        </button>
       </div>
     </form>
   </div>
@@ -88,7 +95,7 @@ import store from "../store";
 
 export function validName(name) {
   let validNamePattern = new RegExp("^[a-zA-Z]+(?:[-'\\s][a-zA-Z]+)*$");
-  if (validNamePattern.test(name)){
+  if (validNamePattern.test(name)) {
     return true;
   }
   return false;
@@ -100,40 +107,7 @@ export default {
   setup() {
     return { v$: useVuelidate() };
   },
-  // setup() {
-  //   const validations = {
-  //     email: (value) => {
-  //       if (!value) return "This field is required";
-  //       const regex =
-  //         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  //       if (!regex.test(String(value).toLowerCase())) {
-  //         return "Please enter a valid email address";
-  //       }
-  //       return true;
-  //     },
-  //     name: (value) => {
-  //       const requiredMessage = "This field is required";
-  //       if (value === undefined || value === null) return requiredMessage;
-  //       if (!String(value).length) return requiredMessage;
-  //       return true;
-  //     },
-  //   };
-  //   useForm({
-  //     validationSchema: validations,
-  //   });
-
-  //   const { value: email, errorMessage: emailError } = useField("email");
-  //   const { value: name, errorMessage: nameError } = useField("name");
-
-  //   return {
-  //     feedback: {
-  //       name,
-  //       email,
-  //       emailError,
-  //       nameError,
-  //     },
-  //   };
-  // },
+  
   data() {
     return {
       feedback: {
@@ -152,8 +126,9 @@ export default {
           minLength: minLength(3),
           name_validation: {
             $validator: validName,
-            $message: "Please enter a valid name. No special characters, numbers or spaces at the start or the end of the name are allowed.",
-          }
+            $message:
+              "Please enter a valid name. No special characters, numbers or spaces at the start or the end of the name are allowed.",
+          },
         },
         email: {
           required,
@@ -169,12 +144,11 @@ export default {
 
   methods: {
     sendForm() {
-
       store.commit("setName", this.feedback.name);
       store.commit("setEmail", this.feedback.email);
 
-      console.log(store.state.name +  ", store.name")
-      console.log(store.state.email + ", store.email")
+      console.log(store.state.name + ", store.name");
+      console.log(store.state.email + ", store.email");
 
       axios
         .post(
@@ -197,7 +171,17 @@ export default {
 </script>
 
 <style>
+
 .input-errors {
   color: red;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
 }
 </style>
